@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, SectionList, View, TouchableOpacity } from 'react-native';
 import { getNotes, events } from '../utils/db';
+import moment from 'moment';
+
+function pad(n){return n<10 ? '0'+n : n}
 
 export default class List extends React.Component {
   state = {
@@ -18,28 +21,78 @@ export default class List extends React.Component {
       });
     })
   }
-  
+
   componentWillUnmount() {
     events.off('newData', this.updateItems)
   }
 
   getSections() {
-    return this.state.items.map((item) => {
-      const date = new Date(item.createDate);
-      return `${date.getFullYear()} - ${date.getMonth()}`;
-    })
-    .filter((value, index, self) => self.indexOf(value) === index)
-    .sort()
-    .map((section) => {
-      return {
-        title: section,
-        data: this.state.items.filter((item) => {
-          const date = new Date(item.createDate);
-          const dateString = `${date.getFullYear()} - ${date.getMonth()}`;
-          return dateString === section
-        })
-      };
+    const sections = {
+      today: [],
+      yesterday: [],
+      week: [],
+      months: {},
+    };
+
+    this.state.items.forEach((item) => {
+      const itemData = moment(item.createDate);
+      const currentDate = moment(new Date());
+
+      if (itemData.isAfter(currentDate.startOf('day'))) {
+        sections.today.push(item);
+        return;
+      }
+      if (itemData.isAfter(currentDate.startOf('day').add(1, 'd'))) {
+        sections.yesterday.push(item);
+        return;
+      }
+      if (itemData.isAfter(currentDate.startOf('week'))) {
+        sections.week.push(item);
+        return;
+      }
+
+      const year = itemData.year();
+      const month = pad(itemData.month() + 1, 2);
+      if (!sections.months[`${year} - ${month}`]) sections.months[`${year} - ${month}`] = [];
+      sections.months[`${year} - ${month}`].push(item);
     });
+
+    const data = [];
+
+    if (sections.today.length) {
+      data.push({
+        title: 'dziś...',
+        data: sections.today,
+      });
+    }
+
+    if (sections.yesterday.length) {
+      data.push({
+        title: 'wczoraj...',
+        data: sections.yesterday,
+      });
+    }
+
+    if (sections.week.length) {
+      data.push({
+        title: 'w tym tygodniu...',
+        data: sections.week,
+      });
+    }
+
+    Object.keys(sections.months).sort((a, b) => {
+      var dateA = moment(a || '10000 - 01', 'YYYY - MM');
+      var dateB = moment(b || '10000 - 01', 'YYYY - MM');
+      return dateB.diff(dateA);
+    }).forEach((month) => {
+      if (!sections.months[month].length) return;
+      data.push({
+        title: month,
+        data: sections.months[month],
+      });
+    });
+
+    return data;
   }
 
   onPress = (item) => (event) => {
