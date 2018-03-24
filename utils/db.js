@@ -243,8 +243,3 @@ export const getNotes = () => {
     });
   });
 };
-
-
-setTimeout(() => {
-  events.emit('newData');
-}, 100)

@@ -12,7 +12,8 @@ export default class List extends React.Component {
   };
 
   componentWillMount() {
-    events.on('newData', this.updateItems)
+    events.on('newData', this.updateItems);
+    events.emit('newData');
   }
 
   updateItems = () => {
