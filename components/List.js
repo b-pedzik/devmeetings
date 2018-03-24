@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, SectionList, View } from 'react-native';
+import { StyleSheet, Text, SectionList, View, TouchableOpacity } from 'react-native';
 
 export default class List extends React.Component {
   state = {
@@ -461,10 +461,10 @@ export default class List extends React.Component {
         <SectionList
           sections={this.getSections()}
           renderItem={({item}) => (
-            <View style={styles.item} onPress={this.onPress(item)}>
+            <TouchableOpacity style={styles.item} onPress={this.onPress(item)}>
               <Text style={styles.itemContent} ellipsizeMode="tail" numberOfLines={1}>{item.content}</Text>
               <Text style={styles.itemDate}>{item.createDate}</Text>
-            </View>
+            </TouchableOpacity>
           )}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
