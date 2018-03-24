@@ -25,9 +25,7 @@ export default class App extends React.Component {
     }
     
     addNote = item => {
-        addNote(item);
-        this.setState({ item });
-        
+        addNote(item).then(item => this.setState({ item }));
     }
     
     render() {
