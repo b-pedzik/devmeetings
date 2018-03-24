@@ -18,6 +18,7 @@ export const updateNote = (data) => {
   data.lastUpdate = new Date();
   return AsyncStorage.setItem(data.id, JSON.stringify(data)).then(() => {
     events.emit('newData');
+    return data;
   });
 };
 
