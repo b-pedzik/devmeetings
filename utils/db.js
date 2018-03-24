@@ -6,9 +6,11 @@ import EE from 'eventemitter';
 
 export const events = new EE.EventEmitter();
 
+let itemsArr = [];
+
 export const addNote = (data) => {
   data.lastUpdate = new Date();
-  if (!data.id) data.id = `note-${items.length + 1}`;
+  if (!data.id) data.id = `note-${itemsArr.length + 1}`;
   return updateNote(data);
 };
 
@@ -29,7 +31,7 @@ export const getNotes = () => {
   return AsyncStorage.getAllKeys().then((keys) => {
     const notesKeys = keys.filter((key) => key.indexOf('note') === 0);
     return AsyncStorage.multiGet(notesKeys).then((items) => {
-      return items.map((item) => JSON.parse(item[1]));
+      return itemsArr = items.map((item) => JSON.parse(item[1]));
     }).catch((err) => {
       console.log(err);
     });
