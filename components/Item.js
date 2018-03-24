@@ -1,12 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 
 export default class Item extends React.Component {
     render() {
         return (
             <View style={styles.noteContainer}>
                 <Text style={styles.date}>Created date: {this.props.item.createDate}</Text>
-                <Text style={styles.content}>{this.props.item.content}</Text>
+                <View style={styles.inputWrapper}>
+                    <TextInput 
+                        style={styles.content} 
+                        placeholderTextColor='#555' 
+                        multiline={true}
+                        defaultValue={this.props.item.content} />
+                </View>
             </View>
         );
     }
@@ -31,5 +37,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         paddingTop: 10,
         paddingBottom: 10
+    },
+    inputWrapper: {
+        width: '100%',
+        flex: 1,
     }
 });

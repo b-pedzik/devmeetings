@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import List from './components/List';
 import Item from './components/Item';
+import AddNoteButton from './components/AddNoteButton';
 
 export default class App extends React.Component {
     state = {
@@ -13,19 +14,26 @@ export default class App extends React.Component {
         }
     }
     
-    onPress = item => {
+    selectItem = item => {
         this.setState({ item });
     }
+    
+    addItem = () => {
+        
+    }
+    
+    
     
     render() {
         return (
             <View style={styles.mainContainer}>
                 <View style={styles.container}>
-                    <List onPress={this.onPress}/>
-                </View>
-                <View style={styles.container}>
                     <Item item={this.state.item} />
                 </View>
+                <View style={styles.container}>
+                    <List onPress={this.selectItem}/>
+                </View>
+                <AddNoteButton onPress={this.addItem} />
             </View>
         );
     }
@@ -35,6 +43,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         backgroundColor: '#000',
+        marginTop: 25,
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
     },

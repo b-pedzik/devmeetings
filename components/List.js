@@ -47,7 +47,9 @@ export default class List extends React.Component {
         <SectionList
           sections={this.getSections()}
           renderItem={({item}) => (
-            <TouchableOpacity style={styles.item} onPress={this.onPress(item)}>
+            <TouchableOpacity 
+                style={styles.item} 
+                onPress={this.onPress(item)}>
               <Text style={styles.itemContent} ellipsizeMode="tail" numberOfLines={1}>{item.content}</Text>
               <Text style={styles.itemDate}>{item.createDate}</Text>
             </TouchableOpacity>
