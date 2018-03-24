@@ -177,5 +177,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     backgroundColor: '#F9F9F7',
+    width: '100%',
+    height: '100%',
   }
 });
