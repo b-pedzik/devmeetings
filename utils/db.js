@@ -216,7 +216,7 @@ let items = [];
 
 export const addNote = (data) => {
   data.lastUpdate = new Date();
-  data.id = `note-${items.length}`;
+  data.id = `note-${items.length + 1}`;
   return updateNote(data);
 };
 
