@@ -116,6 +116,7 @@ export default class List extends React.Component {
                 <Text style={styles.itemContent} ellipsizeMode="tail" numberOfLines={1}>{item.content}</Text>
                 <Text style={styles.itemDate}>{item.createDate}</Text>
               </View>
+
             </TouchableOpacity>
           )}
           renderSectionHeader={({section}) => <View style={styles.sectionHeaderBox}><Text style={styles.sectionHeader}>{section.title}</Text></View>}
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
   itemContent: {
     fontSize: 18,
     height: 25,
+    flex: 1,
   },
   itemDate: {
     fontSize: 12,

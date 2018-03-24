@@ -1,12 +1,14 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default class AddNoteButton extends React.Component {
     render() {
         return (
-            <TouchableOpacity onPress={this.props.addItem} style={styles.button}>
-                <Ionicons {...iconProps} />
+            <TouchableOpacity 
+                onPress={this.props.onPress} 
+                style={styles.button}>
+                <MaterialIcons {...iconProps} />
             </TouchableOpacity>
         );
     }
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 const iconProps = {
-    name: 'md-add-circle',
+    name: 'add-circle',
     size: 64,
     color: '#FFCA33'
 }

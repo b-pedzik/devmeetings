@@ -1,17 +1,45 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default class Item extends React.Component {
+    state = {
+        inputValue: ''
+    }
+    
+    onChange = value => {
+        this.setState({
+            inputValue: value
+        });
+    }
+    
+    saveNote = () => {
+        const item = {
+            ...this.props.item,
+            content: this.state.inputValue
+        }
+        
+        this.props.saveNote(item);
+    }
+    
     render() {
         return (
             <View style={styles.noteContainer}>
-                <Text style={styles.date}>Created date: {this.props.item.createDate}</Text>
                 <View style={styles.inputWrapper}>
                     <TextInput 
                         style={styles.content} 
-                        placeholderTextColor='#555' 
+                        placeholderTextColor='#777' 
+                        placeholder="Add new note..."
                         multiline={true}
-                        defaultValue={this.props.item.content} />
+                        defaultValue={this.props.item.content}
+                        underlineColorAndroid='transparent'
+                        onChangeText={this.onChange}
+                    />
+                        <View style={styles.saveButtonWrapper}>
+                            <TouchableOpacity onPress={this.saveNote}>
+                                <MaterialIcons name="save" size={48} color='#000' />
+                            </TouchableOpacity>
+                        </View>
                 </View>
             </View>
         );
@@ -41,5 +69,11 @@ const styles = StyleSheet.create({
     inputWrapper: {
         width: '100%',
         flex: 1,
+        position: 'relative'
+    },
+    saveButtonWrapper: {
+        position: 'absolute',
+        bottom: 12,
+        right: 12
     }
 });

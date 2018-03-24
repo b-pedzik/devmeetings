@@ -3,14 +3,13 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import List from './components/List';
 import Item from './components/Item';
 import AddNoteButton from './components/AddNoteButton';
+import { addNote } from './utils/db';
 
 export default class App extends React.Component {
     state = {
         item: {
-            "isDone": true,
-            "content": "Consectetur laboris enim eu tempor. Nostrud aliquip sunt ad pariatur voluptate esse officia ut. Id irure ut est cillum aliqua velit esse ad ex.\r\n",
-            "createDate": "2015-03-28T10:00:53 -01:00",
-            "lastUpdate": "2016-08-18T03:43:45 -02:00"
+            content: '',
+            createDate: new Date()
         }
     }
     
@@ -19,16 +18,22 @@ export default class App extends React.Component {
     }
     
     addItem = () => {
-        
+        this.setState({ item: {
+            content: '',
+            createDate: new Date()
+        }});
     }
     
-    
+    saveNote = item => {
+        addNote(item);
+        this.setState({ item });
+    }
     
     render() {
         return (
             <View style={styles.mainContainer}>
                 <View style={styles.container}>
-                    <Item item={this.state.item} />
+                    <Item item={this.state.item} saveNote={this.saveNote} />
                 </View>
                 <View style={styles.container}>
                     <List onPress={this.selectItem}/>
@@ -52,6 +57,7 @@ const styles = StyleSheet.create({
         marginTop: 2,
         height: '50%',
         backgroundColor: '#000',
+        width: '100%',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     }
