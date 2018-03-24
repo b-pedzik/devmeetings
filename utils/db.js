@@ -237,9 +237,11 @@ export const getNotes = () => {
   return AsyncStorage.getAllKeys().then((keys) => {
     const notesKeys = keys.filter((key) => key.indexOf('note') === 0);
     return AsyncStorage.multiGet(notesKeys).then((items) => {
-      const newItems = items.map((item) => JSON.parse(item));
+      const newItems = items.map((item) => JSON.parse(item[1]));
       items = [].concat(startData, newItems);
       return items;
+    }).catch((err) => {
+      console.log(err);
     });
   });
 };
