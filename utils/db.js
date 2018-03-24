@@ -6,11 +6,9 @@ import EE from 'eventemitter';
 
 export const events = new EE.EventEmitter();
 
-let items = [];
-
 export const addNote = (data) => {
   data.lastUpdate = new Date();
-  data.id = `note-${items.length + 1}`;
+  if (!data.id) data.id = `note-${items.length + 1}`;
   return updateNote(data);
 };
 

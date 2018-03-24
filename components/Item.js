@@ -13,13 +13,13 @@ export default class Item extends React.Component {
         });
     }
     
-    saveNote = () => {
+    addNote = () => {
         const item = {
             ...this.props.item,
             content: this.state.inputValue
         }
         
-        this.props.saveNote(item);
+        this.props.addNote(item);
     }
     
     render() {
@@ -36,7 +36,7 @@ export default class Item extends React.Component {
                         onChangeText={this.onChange}
                     />
                         <View style={styles.saveButtonWrapper}>
-                            <TouchableOpacity onPress={this.saveNote}>
+                            <TouchableOpacity onPress={this.addNote}>
                                 <MaterialIcons name="save" size={48} color='#000' />
                             </TouchableOpacity>
                         </View>

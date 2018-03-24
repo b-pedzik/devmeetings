@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import List from './components/List';
 import Item from './components/Item';
 import AddNoteButton from './components/AddNoteButton';
-import { addNote } from './utils/db';
+import { addNote, updateNote, getNotes } from './utils/db';
 
 export default class App extends React.Component {
     state = {
@@ -24,16 +24,19 @@ export default class App extends React.Component {
         }});
     }
     
-    saveNote = item => {
+    addNote = item => {
         addNote(item);
         this.setState({ item });
+        
     }
     
     render() {
         return (
             <View style={styles.mainContainer}>
                 <View style={styles.container}>
-                    <Item item={this.state.item} saveNote={this.saveNote} />
+                    <Item 
+                        item={this.state.item} 
+                        addNote={this.addNote} />
                 </View>
                 <View style={styles.container}>
                     <List onPress={this.selectItem}/>
