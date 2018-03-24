@@ -5,7 +5,7 @@ export default class Item extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-              <Text style={styles.text}>Open up App.js to start working on your app!</Text>
+              <Text style={styles.text}>{note}</Text>
             </View>
         );
     }
@@ -14,12 +14,16 @@ export default class Item extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: '100%',
+        marginTop: 25,
+        backgroundColor: '#FFCA33',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
     text: {
-        color: '#fff',
+        color: '#000',
         fontSize: 20
   }
 });
+
+const note = 'Note';
