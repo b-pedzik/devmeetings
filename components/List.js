@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, StatusBar, SectionList } from 'react-native';
+import { StyleSheet, Text, SectionList } from 'react-native';
 
 export default class List extends React.Component {
   state = {
@@ -82,14 +82,12 @@ export default class List extends React.Component {
 
   render() {
     return (
-      <View>
-        <SectionList
-          sections={this.getSections()}
-          renderItem={({item}) => <Text style={styles.item} ellipsizeMode="tail" numberOfLines={1}>{item}</Text>}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-          keyExtractor={(item, index) => index}
-        />
-      </View>
+      <SectionList
+        sections={this.getSections()}
+        renderItem={({item}) => <Text style={styles.item} ellipsizeMode="tail" numberOfLines={1}>{item}</Text>}
+        renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+        keyExtractor={(item, index) => index}
+      />
     );
   }
 }
