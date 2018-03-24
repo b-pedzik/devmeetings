@@ -27,6 +27,18 @@ export default class List extends React.Component {
   componentWillUnmount() {
     events.off('newData', this.updateItems)
   }
+  
+  sortByDate = (a, b) => {
+    var dateA = moment(a || '10000 - 01', 'YYYY - MM');
+    var dateB = moment(b || '10000 - 01', 'YYYY - MM');
+    return dateB.diff(dateA);
+  }
+
+  sortByDate2 = (a, b) => {
+    var dateA = moment(a.lastUpdate || '10000 - 01');
+    var dateB = moment(b.lastUpdate || '10000 - 01');
+    return dateB.diff(dateA);
+  }
 
   getSections() {
     const sections = {
@@ -64,33 +76,29 @@ export default class List extends React.Component {
     if (sections.today.length) {
       data.push({
         title: 'dziś...',
-        data: sections.today,
+        data: sections.today.sort(this.sortByDate2),
       });
     }
 
     if (sections.yesterday.length) {
       data.push({
         title: 'wczoraj...',
-        data: sections.yesterday,
+        data: sections.yesterday.sort(this.sortByDate2),
       });
     }
 
     if (sections.week.length) {
       data.push({
         title: 'w tym tygodniu...',
-        data: sections.week,
+        data: sections.week.sort(this.sortByDate2),
       });
     }
 
-    Object.keys(sections.months).sort((a, b) => {
-      var dateA = moment(a || '10000 - 01', 'YYYY - MM');
-      var dateB = moment(b || '10000 - 01', 'YYYY - MM');
-      return dateB.diff(dateA);
-    }).forEach((month) => {
+    Object.keys(sections.months).sort(this.sortByDate).forEach((month) => {
       if (!sections.months[month].length) return;
       data.push({
         title: month,
-        data: sections.months[month],
+        data: sections.months[month].sort(this.sortByDate2),
       });
     });
 
