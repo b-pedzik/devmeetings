@@ -19,6 +19,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "eventemitter": "^0.3.3",
     "expo": "^25.0.0",
     "moment": "^2.21.0",
     "react": "16.2.0",

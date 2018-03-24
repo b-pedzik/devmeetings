@@ -2,6 +2,10 @@ import {
   AsyncStorage,
 } from 'react-native';
 
+import EE from 'eventemitter';
+
+export const events = new EE.EventEmitter();
+
 const startData = [
   {
     "id": "note-1",
@@ -220,6 +224,7 @@ export const updateNote = (data) => {
   data.lastUpdate = new Date();
   return new Promise((resolve, reject) => {
     AsyncStorage.setItem(data.id, JSON.stringify(data), () => {
+      events.emit('newData');
       resolve();
     });
   });
@@ -228,20 +233,19 @@ export const updateNote = (data) => {
 export const removeNote = ({ id }) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.removeItem(id, () => {
+      events.emit('newData');
       resolve();
     });
   });
 };
 
 export const getNotes = () => {
-  
   return new Promise((resolve, reject) => {
     AsyncStorage.getAllKeys((err, keys) => {
       const notesKeys = keys.filter((key) => key.indexOf('note') === 0);
       AsyncStorage.multiGet(notesKeys, (err, items) => {
         const newItems = items.map((item) => JSON.parse(item));
         items = [].concat(startData, newItems);
-        console.log(items);
         resolve(items);
       });
     });
@@ -249,3 +253,6 @@ export const getNotes = () => {
 };
 
 
+setTimeout(() => {
+  events.emit('newData');
+}, 100)
