@@ -451,13 +451,17 @@ export default class List extends React.Component {
     }));
   }
 
+  onPress = (item) => (event) => {
+    this.props.onPress(item);
+  }
+
   render() {
     return (
       <View>
         <SectionList
           sections={this.getSections()}
           renderItem={({item}) => (
-            <View style={styles.item}>
+            <View style={styles.item} onPress={this.onPress(item)}>
               <Text style={styles.itemContent} ellipsizeMode="tail" numberOfLines={1}>{item.content}</Text>
               <Text style={styles.itemDate}>{item.createDate}</Text>
             </View>
