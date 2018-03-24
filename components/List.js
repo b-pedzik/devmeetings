@@ -1,21 +1,26 @@
 import React from 'react';
 import { StyleSheet, Text, SectionList, View, TouchableOpacity } from 'react-native';
-import { getNotes } from '../utils/db';
+import { getNotes, events } from '../utils/db';
 
 export default class List extends React.Component {
   state = {
     items: [],
   };
-  
-  componentWillMount() {
-    setTimeout(() => {
-      getNotes().then((items) => {
-        this.setState({
-          items,
-        });
-      })
-    }, 1000)
 
+  componentWillMount() {
+    events.on('newData', this.updateItems)
+  }
+
+  updateItems = () => {
+    getNotes().then((items) => {
+      this.setState({
+        items,
+      });
+    })
+  }
+  
+  componentWillUnmount() {
+    events.off('newData', this.updateItems)
   }
 
   getSections() {
