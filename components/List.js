@@ -8,6 +8,7 @@ function pad(n){return n<10 ? '0'+n : n}
 export default class List extends React.Component {
   state = {
     items: [],
+    selectedItem: '',
   };
 
   componentWillMount() {
@@ -97,22 +98,27 @@ export default class List extends React.Component {
 
   onPress = (item) => (event) => {
     this.props.onPress(item);
+    this.setState({
+      selectedItem: item.id,
+    })
   }
 
   render() {
     return (
-      <View>
+      <View style={styles.wrapper}>
         <SectionList
           sections={this.getSections()}
           renderItem={({item}) => (
             <TouchableOpacity 
-                style={styles.item} 
+                style={[styles.itemWrapper, item.id === this.state.selectedItem ? styles.itemWrapperActive : {}]} 
                 onPress={this.onPress(item)}>
-              <Text style={styles.itemContent} ellipsizeMode="tail" numberOfLines={1}>{item.content}</Text>
-              <Text style={styles.itemDate}>{item.createDate}</Text>
+              <View style={styles.item} >
+                <Text style={styles.itemContent} ellipsizeMode="tail" numberOfLines={1}>{item.content}</Text>
+                <Text style={styles.itemDate}>{item.createDate}</Text>
+              </View>
             </TouchableOpacity>
           )}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+          renderSectionHeader={({section}) => <View style={styles.sectionHeaderBox}><Text style={styles.sectionHeader}>{section.title}</Text></View>}
           keyExtractor={(item, index) => index}
         />
       </View>
@@ -121,6 +127,12 @@ export default class List extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  sectionHeaderBox: {
+    borderBottomColor: '#C9C9C9',
+    borderBottomWidth: 1,
+    borderTopColor: '#C9C9C9',
+    borderTopWidth: 1,
+  },
   sectionHeader: {
     paddingTop: 2,
     paddingLeft: 10,
@@ -128,12 +140,21 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     fontSize: 16,
     fontWeight: 'bold',
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: '#F6F6F6',
+    color: '#6C6C6C',
+  },
+  itemWrapper: {
+    paddingHorizontal: 20,
+    height: 60,
+  },
+  itemWrapperActive: {
+    backgroundColor: '#FBE08C',
   },
   item: {
-    padding: 10,
     height: 60,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    paddingVertical: 10,
+    borderBottomColor: '#E7E7E5',
+    borderBottomWidth: 1,
   },
   itemContent: {
     fontSize: 18,
@@ -143,4 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     height: 15,
   },
+  wrapper: {
+    backgroundColor: '#F9F9F7',
+  }
 });
